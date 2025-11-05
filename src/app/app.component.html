@@ -1,10 +1,8 @@
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="mb-3">Mis Recetas</h1>
-      <hr>
-
-      <app-recipe-list [recipes]="recipes()"></app-recipe-list>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/"> 📓 Mis Recetas
+    </a>
   </div>
-</div>
+</nav>
+
+<router-outlet></router-outlet>

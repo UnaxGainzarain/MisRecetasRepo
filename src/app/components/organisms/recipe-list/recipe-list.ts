@@ -1,16 +1,14 @@
-import { Component, input } from '@angular/core';
-import { RecipeModel } from '../../../models/recipe.model';
-import { RecipeCard } from '../recipe-card/recipe-card'; // Importamos la tarjeta
-import { CommonModule } from '@angular/common';
+// Abre tu archivo: src/app/components/organisms/recipe-list/recipe-list.ts
+import { Component, Input } from '@angular/core'; 
+import { RecipeModel } from '../../../models/recipe.model'; 
 
 @Component({
-  selector: 'app-recipe-list',
-  standalone: true,
-  imports: [CommonModule, RecipeCard], // Añadimos RecipeCard a los imports
+  selector: 'app-recipe-list', // La etiqueta HTML es <app-recipe-list>
   templateUrl: './recipe-list.html',
   styleUrl: './recipe-list.scss'
 })
-export class RecipeList {
-  // Recibe el array de recetas desde el componente padre (la página)
-  recipes = input<RecipeModel[]>([]);
+export class RecipeList { // El nombre de la CLASE es RecipeList
+  
+  // Así le dices que puede recibir [recipes] desde fuera
+  @Input() recipes: RecipeModel[] = []; 
 }

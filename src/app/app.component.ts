@@ -1,15 +1,15 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecipeModel } from '..';
-import { RecipeList } from '../../components/organisms/recipe-list/recipe-list';
+import { RecipeModel } from './models/recipe.model'; 
+import { RecipeList } from '../../src/app/components/organisms/recipe-list/recipe-list';
 
 @Component({
   selector: 'app-recipes-page',
   standalone: true,
   // Importamos RecipeList para poder usar <app-recipe-list> en el HTML
   imports: [CommonModule, RecipeList], 
-  templateUrl: './recipes-page.html',
-  styleUrl: './recipes-page.scss'
+  templateUrl: '../../src/app/pages/recipes-page/recipes-page.html',
+  styleUrl: '../../src/app/pages/recipes-page/recipes-page.scss'
 })
 export class RecipesPage implements OnInit {
 

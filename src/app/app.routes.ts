@@ -1,13 +1,14 @@
+// En: src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { RecipesPageComponent } from './pages/recipes-page/recipes-page.component';
+// 1. Arregla la importación (sin 'Component')
+import { RecipesPage } from './pages/recipes-page/recipes-page'; 
 
 export const routes: Routes = [
-    // Cuando la ruta esté vacía (''), carga RecipesPageComponent
     { 
       path: '', 
-      component: RecipesPageComponent 
+      // 2. Arregla el nombre aquí (sin 'Component')
+      component: RecipesPage 
     },
-    // Cualquier otra ruta, redirige a la raíz
     { 
       path: '**', 
       redirectTo: '' 

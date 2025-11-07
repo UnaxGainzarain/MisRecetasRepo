@@ -1,7 +1,7 @@
 // Abre tu archivo: src/app/pages/recipes-page/recipes-page.ts
 
 import { Component, OnInit } from '@angular/core'; // <-- 1. QUITA 'signal'
-import { RecipeModel } from '../../models/recipe.model';
+import { Recipe } from '../../models/recipe.model';
 
 @Component({
   selector: 'app-recipes-page',
@@ -12,7 +12,7 @@ import { RecipeModel } from '../../models/recipe.model';
 export class RecipesPage implements OnInit { 
 
   // 3. CAMBIO: 'recipes' es un array normal
-  recipes: RecipeModel[] = []; 
+  recipes: Recipe[] = []; 
 
   ngOnInit() {
     // 4. CAMBIO: Asignamos los datos con =
@@ -20,21 +20,21 @@ export class RecipesPage implements OnInit {
   }
 
   // Función privada que nos da los datos de inicio
-  private getDefaultRecipes(): RecipeModel[] {
+  private getDefaultRecipes(): Recipe[] {
     return [
-      new RecipeModel(
+      new Recipe(
         'Tortilla de Patatas',
         'La clásica tortilla de patatas española, jugosa por dentro.',
         ['Huevos', 'Patatas', 'Cebolla (opcional)', 'Aceite de Oliva', 'Sal'],
         'https://i.blogs.es/e1d0c1/tortilla-de-patatas-con-cebolla/1366_2000.jpg'
       ),
-      new RecipeModel(
+      new Recipe(
         'Croquetas de Jamón',
         'Croquetas cremosas de jamón serrano, perfectas como tapa.',
         ['Jamón Serrano', 'Harina', 'Leche', 'Mantequilla', 'Nuez Moscada', 'Pan Rallado', 'Huevo'],
         'https://imag.bonviveur.com/croquetas-de-jamon-caseras.jpg'
       ),
-      new RecipeModel(
+      new Recipe(
         'Gazpacho Andaluz',
         'Sopa fría refrescante, ideal para el verano.',
         ['Tomates', 'Pimiento', 'Pepino', 'Ajo', 'Aceite de Oliva', 'Vinagre', 'Sal'],

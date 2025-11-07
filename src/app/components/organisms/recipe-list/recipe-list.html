@@ -1,15 +1,1 @@
-@if (recipes.length > 0) {
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
-    @for (recipe of recipes; track recipe.title) {
-      <div class="col">
-        <app-recipe-card [recipe]="recipe"></app-recipe-card>
-      </div>
-    }
-
-  </div>
-} @else {
-  <div class="alert alert-info" role="alert">
-    Aún no hay recetas.
-  </div>
-}
+<p>recipe-list works!</p>

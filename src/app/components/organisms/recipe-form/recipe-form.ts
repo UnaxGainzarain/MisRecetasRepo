@@ -1,4 +1,3 @@
-// src/app/components/organisms/recipe-form/recipe-form.ts
 
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'; 
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -43,7 +42,6 @@ export class RecipeForm implements OnInit {
   }
 
   ngOnInit(): void {
-      // Dejamos la implementación de edición simple aquí (no funciona sin servicio)
   }
   
   // Modificación de onSubmit para usar sessionStorage
@@ -63,15 +61,12 @@ export class RecipeForm implements OnInit {
         formValue.imageUrl || 'https://via.placeholder.com/300x200?text=Nueva+Receta'
       );
       
-      // La emisión del evento Output se pierde, por lo que almacenamos los datos temporalmente.
       
       if (this.isEditing && this.currentRecipeId) {
         Object.assign(resultRecipe, { id: this.currentRecipeId });
-        // HACK: Almacena la acción de UPDATE en sessionStorage
         sessionStorage.setItem('recipeAction', JSON.stringify({ type: 'UPDATE', recipe: resultRecipe }));
         alert('Receta Editada y guardada temporalmente.');
       } else {
-        // HACK: Almacena la acción de ADD en sessionStorage
         sessionStorage.setItem('recipeAction', JSON.stringify({ type: 'ADD', recipe: resultRecipe }));
         alert('Receta Añadida.');
       }
@@ -84,7 +79,6 @@ export class RecipeForm implements OnInit {
     }
   }
 
-  // ... (resto del código del setter y onDelete)
   
   private loadRecipeData(): void {
     if (this.recipeToEdit) {

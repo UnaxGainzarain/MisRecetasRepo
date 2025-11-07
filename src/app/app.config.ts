@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import {ReactiveFormsModule } from '@angular/forms'; // <-- Asegúrate de tener estas importaciones
+import {ReactiveFormsModule } from '@angular/forms'; 
 
 import { routes } from './app.routes';
 

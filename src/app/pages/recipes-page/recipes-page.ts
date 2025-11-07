@@ -1,9 +1,7 @@
-// src/app/pages/recipes-page/recipes-page.ts
 
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../../models/recipe.model'; 
 import { RecipeList } from '../../components/organisms/recipe-list/recipe-list'; 
-// El formulario se carga por el router, no es necesario importarlo directamente aquí
 
 @Component({
   selector: 'app-recipes-page',
@@ -18,10 +16,9 @@ export class RecipesPage implements OnInit {
 
   ngOnInit() {
     this.recipes = this.getDefaultRecipes(); 
-    this.checkSessionForRecipeAction(); // <-- ¡NUEVO! Comprueba si hay una acción pendiente
+    this.checkSessionForRecipeAction(); 
   }
 
-  // Métodos que manipulan el array de recetas (hechos públicos para ser llamados internamente)
   public onRecipeAdded(newRecipe: Recipe): void {
     this.recipes = [newRecipe, ...this.recipes];
   }
@@ -40,12 +37,11 @@ export class RecipesPage implements OnInit {
     this.recipes = this.recipes.filter(r => r.id !== id);
   }
 
-  // Método HACK para recoger la receta del sessionStorage y realizar la acción
   private checkSessionForRecipeAction(): void { 
     const actionJson = sessionStorage.getItem('recipeAction');
     
     if (actionJson) {
-      sessionStorage.removeItem('recipeAction'); // ¡LIMPIAR LA ACCIÓN INMEDIATAMENTE!
+      sessionStorage.removeItem('recipeAction'); 
       
       try {
         const action = JSON.parse(actionJson);

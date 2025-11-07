@@ -9,9 +9,8 @@ import { RecipeList } from './components/organisms/recipe-list/recipe-list';
 export const routes: Routes = [
     { path: '', redirectTo: 'lista-de-recetas', pathMatch: 'full' }, 
     { path: 'lista-de-recetas', component: RecipesPage},
-    { path: 'Card-Receta', component: RecipeCard },
     
     { path: 'formulario-receta', component: RecipeForm },
 
-    { path: 'formulario-receta/:id', component: RecipeForm }, // <-- ¡NUEVO!
+    { path: 'formulario-receta/:id', component: RecipeForm }, 
 ];

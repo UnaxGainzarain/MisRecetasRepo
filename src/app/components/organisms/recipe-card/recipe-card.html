@@ -13,19 +13,4 @@
 
     <a [routerLink]="['/formulario-receta', id]" class="btn btn-primary mt-auto">Editar receta</a>
   </div>
-</div><div class="card h-100">
-  <img [src]="imageUrl" class="card-img-top" [alt]="title">
-  <div class="card-body d-flex flex-column">
-    <h5 class="card-title">{{ title }}</h5>
-    <p class="card-text">{{ description }}</p>
-
-    <h6 class="card-subtitle mb-2 text-muted">Ingredientes:</h6>
-    <ul class="list-group list-group-flush mb-3 flex-grow-1">
-      <li class="list-group-item p-1" *ngFor="let ingredient of ingredients">
-        {{ ingredient }}
-      </li>
-    </ul>
-
-    <a [routerLink]="['/formulario-receta', id]" class="btn btn-primary mt-auto">Editar receta</a>
-  </div>
 </div>

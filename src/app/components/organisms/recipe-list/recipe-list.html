@@ -1,8 +1,9 @@
 <div class="row">
     <div *ngFor="let recipe of recipes" class="col-md-4 mb-4">
         <app-recipe-card 
-            [title]="recipe.title"
+            [id]="recipe.id"               [title]="recipe.title"
             [description]="recipe.description"
+            [ingredients]="recipe.ingredients"
             [imageUrl]="recipe.imageUrl">
         </app-recipe-card>
     </div>

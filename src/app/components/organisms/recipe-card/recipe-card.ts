@@ -1,9 +1,11 @@
+// src/app/components/organisms/recipe-card/recipe-card.ts
 
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-recipe-card',
+  standalone: true, // ¡Añadir standalone!
   imports: [CommonModule],
   templateUrl: './recipe-card.html',
   styleUrl: './recipe-card.scss'

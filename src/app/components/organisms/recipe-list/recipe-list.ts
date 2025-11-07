@@ -1,14 +1,18 @@
-// Abre tu archivo: src/app/components/organisms/recipe-list/recipe-list.ts
+// src/app/components/organisms/recipe-list/recipe-list.ts
 import { Component, Input } from '@angular/core'; 
-import { RecipeModel } from '../../../models/recipe.model'; 
+import { CommonModule } from '@angular/common'; // Necesario para *ngFor
+import { Recipe } from '../../../models/recipe.model'; // Usamos la clase Recipe
+import { RecipeCard } from '../recipe-card/recipe-card'; // Importamos RecipeCard
 
 @Component({
-  selector: 'app-recipe-list', // La etiqueta HTML es <app-recipe-list>
+  selector: 'app-recipe-list',
+  standalone: true, // ¡Añadir standalone!
+  imports: [CommonModule, RecipeCard], 
   templateUrl: './recipe-list.html',
   styleUrl: './recipe-list.scss'
 })
-export class RecipeList { // El nombre de la CLASE es RecipeList
+export class RecipeList { 
   
-  // Así le dices que puede recibir [recipes] desde fuera
-  @Input() recipes: RecipeModel[] = []; 
+  // Recibirá un array de la CLASE Recipe
+  @Input() recipes: Recipe[] = []; 
 }

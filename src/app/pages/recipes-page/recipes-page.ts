@@ -1,25 +1,25 @@
-// Abre tu archivo: src/app/pages/recipes-page/recipes-page.ts
+// src/app/pages/recipes-page/recipes-page.ts
 
-import { Component, OnInit } from '@angular/core'; // <-- 1. QUITA 'signal'
-import { Recipe } from '../../models/recipe.model';
+import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../../models/recipe.model'; // Importamos la CLASE Recipe
+import { RecipeList } from '../../components/organisms/recipe-list/recipe-list'; // Importamos RecipeList
 
 @Component({
   selector: 'app-recipes-page',
-  templateUrl: './recipes-page.html', // Tu nombre de archivo
-  styleUrl: './recipes-page.scss'  // Tu nombre de archivo
+  standalone: true, // ¡Añadir standalone!
+  imports: [RecipeList], // Importamos RecipeList para usarlo en el HTML
+  templateUrl: './recipes-page.html',
+  styleUrl: './recipes-page.scss'
 })
-// 2. El nombre de la CLASE SÍ suele acabar en Component (compruébalo)
+// La lógica interna es correcta para usar la CLASE Recipe
 export class RecipesPage implements OnInit { 
 
-  // 3. CAMBIO: 'recipes' es un array normal
   recipes: Recipe[] = []; 
 
   ngOnInit() {
-    // 4. CAMBIO: Asignamos los datos con =
     this.recipes = this.getDefaultRecipes(); 
   }
 
-  // Función privada que nos da los datos de inicio
   private getDefaultRecipes(): Recipe[] {
     return [
       new Recipe(

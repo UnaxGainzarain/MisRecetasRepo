@@ -1,59 +1,34 @@
-# MisRecetas
+# MisRecetasRepo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+Proyecto desarrollado en Angular para la gestión de un recetario personal.
+El objetivo principal de esta versión ha sido refactorizar todo el código legado para adaptarlo a la arquitectura moderna de angular
 
-## Development server
+## Arquitectura y Decisiones Técnicas
 
-To start a local development server, run:
+He reescrito la aplicación siguiendo las reglas de "Zero NgModules" y programación reactiva. Estos son los puntos clave de mi implementación:
 
+### 1. Componentes Standalone y Signals
+* **NgModules:** Ya no uso `app.module.ts`. Todos los componentes son `standalone: true` y las rutas/http se configuran en `app.config.ts`.
+* **Signals:** He sustituido los decoradores `@Input` y `@Output` por las nuevas funciones `input.required()` y `output()`.
+* **Control Flow:** En las vistas (HTML) he quitado los `*ngIf` y `*ngFor` antiguos. Ahora uso la sintaxis nueva `@if`, `@for` (con `track` por id) y `@switch`.
+
+### 2. Estructura de Componentes
+He organizado los componentes por responsabilidad:
+* **Navbar:** Extraído a su propio componente para limpiar el `app.component`.
+* **RecipeCard:** Recibe el objeto `Receta` completo (modelo) en vez de propiedades sueltas.
+* **Listas y Formularios:** Separados lógicamente y comunicados vía servicio.
+
+### 3. Comunicación Reactiva (Sin recargas)
+Para que el listado se actualice al crear una receta (sin usar `sessionStorage` ni recargar la página), he implementado un patrón reactivo en el `RecipeService`:
+* Uso un `ReplaySubject` privado para controlar el estado.
+* El listado se suscribe al observable `update$` y se refresca automáticamente cuando el formulario notifica un cambio (`notifyUpdate`).
+
+---
+
+## Cómo arrancar el proyecto
+
+Para que la aplicación funcione, necesitas levantar el servidor de datos (mock) y el cliente Angular.
+
+**1. Levantar el Backend (Mock API):**
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+node mock-api/server.js

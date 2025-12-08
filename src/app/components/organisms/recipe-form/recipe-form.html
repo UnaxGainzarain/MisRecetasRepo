@@ -1,47 +1,33 @@
 <div class="container mt-4">
-    <h1>{{ isEditing ? 'Editar Receta: ' + recipeForm.get('title')?.value : 'Añadir Nueva Receta' }}</h1>
+  <h2>Nueva Receta</h2>
+  
+  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    
+    <div class="mb-3">
+      <label for="title" class="form-label">Título</label>
+      <input id="title" type="text" class="form-control" formControlName="title">
+    </div>
 
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
-        
-        <div class="mb-3">
-            <label for="title" class="form-label">Título de la Receta</label>
-            <input type="text" class="form-control" id="title" formControlName="title" required>
-            <div *ngIf="recipeForm.get('title')?.invalid && (recipeForm.get('title')?.dirty || recipeForm.get('title')?.touched)" class="text-danger">
-                El título es obligatorio.
-            </div>
-        </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Descripción</label>
+      <textarea id="description" class="form-control" formControlName="description"></textarea>
+    </div>
 
-        <div class="mb-3">
-            <label for="description" class="form-label">Descripción</label>
-            <textarea class="form-control" id="description" formControlName="description" rows="3" required></textarea>
-            <div *ngIf="recipeForm.get('description')?.invalid && (recipeForm.get('description')?.dirty || recipeForm.get('description')?.touched)" class="text-danger">
-                La descripción es obligatoria.
-            </div>
-        </div>
+    <div class="mb-3">
+      <label for="imageUrl" class="form-label">URL de la Imagen</label>
+      <input id="imageUrl" type="text" class="form-control" formControlName="imageUrl">
+      @if (recipeForm.get('imageUrl')?.value) {
+        <img [src]="recipeForm.get('imageUrl')?.value" alt="Previsualización" class="img-thumbnail mt-2" style="max-height: 150px;">
+      }
+    </div>
 
-        <div class="mb-3">
-            <label for="ingredients" class="form-label">Ingredientes (separados por comas)</label>
-            <input type="text" class="form-control" id="ingredients" formControlName="ingredients" placeholder="Ej: Harina, Leche, Huevos" required>
-            <div *ngIf="recipeForm.get('ingredients')?.invalid && (recipeForm.get('ingredients')?.dirty || recipeForm.get('ingredients')?.touched)" class="text-danger">
-                Se requiere al menos un ingrediente.
-            </div>
-        </div>
+    <div class="mb-3">
+      <label for="ingredients" class="form-label">Ingredientes (separados por coma)</label>
+      <input id="ingredients" type="text" class="form-control" formControlName="ingredients" placeholder="Ej: Huevos, Patatas, Aceite">
+    </div>
 
-        <div class="mb-3">
-            <label for="imageUrl" class="form-label">URL de la Imagen (opcional)</label>
-            <input type="url" class="form-control" id="imageUrl" formControlName="imageUrl">
-        </div>
-
-        <button type="submit" class="btn btn-success" [disabled]="recipeForm.invalid">
-            {{ isEditing ? 'Guardar Cambios' : 'Añadir Receta' }}
-        </button>
-
-        <button *ngIf="isEditing" type="button" class="btn btn-danger ms-2" (click)="onDelete()">
-            Eliminar Receta
-        </button>
-
-        <button type="button" class="btn btn-secondary ms-2" (click)="router.navigate(['/lista-de-recetas'])">
-            Cancelar
-        </button>
-    </form>
+    <button type="submit" class="btn btn-success" [disabled]="recipeForm.invalid">
+      Guardar Receta
+    </button>
+  </form>
 </div>

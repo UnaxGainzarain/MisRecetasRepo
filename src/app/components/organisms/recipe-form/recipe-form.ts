@@ -1,110 +1,51 @@
-
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'; 
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Recipe as RecipeModel } from '../../../models/recipe.model';
-import { Router, ActivatedRoute } from '@angular/router'; 
-import { CommonModule } from '@angular/common';
-
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RecipeService } from '../../../services/recipe.service';
+import { Recipe } from '../../../models/recipe.model';
 
 @Component({
   selector: 'app-recipe-form',
   standalone: true,
-  imports: [
-    CommonModule, 
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './recipe-form.html',
   styleUrl: './recipe-form.scss'
 })
-export class RecipeForm implements OnInit { 
+export class RecipeForm {
+  private fb = inject(FormBuilder);
+  private recipeService = inject(RecipeService);
+  private router = inject(Router);
 
-  @Output() recipeAdded = new EventEmitter<RecipeModel>(); 
-  @Output() recipeUpdated = new EventEmitter<RecipeModel>(); 
-  @Output() recipeDeleted = new EventEmitter<number>(); 
-  
-  recipeForm: FormGroup;
-  isEditing = false;
-  currentRecipeId?: number;
-  
-  @Input() recipeToEdit?: RecipeModel; 
+  recipeForm: FormGroup = this.fb.group({
+    title: ['', Validators.required],
+    description: ['', Validators.required],
+    imageUrl: ['https://via.placeholder.com/300', Validators.required],
+    ingredients: ['', Validators.required]
+  });
 
-  constructor(
-    private fb: FormBuilder,
-    public router: Router, 
-    private route: ActivatedRoute
-  ) {
-    this.recipeForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      ingredients: ['', Validators.required], 
-      imageUrl: ['']
-    });
-  }
-
-  ngOnInit(): void {
-  }
-  
-  // Modificación de onSubmit para usar sessionStorage
-  onSubmit(): void {
+  onSubmit() {
     if (this.recipeForm.valid) {
       const formValue = this.recipeForm.value;
+      const ingredientsArray = formValue.ingredients.split(',').map((i: string) => i.trim());
 
-      const ingredientsArray = formValue.ingredients
-        .split(',')
-        .map((item: string) => item.trim())
-        .filter((item: string) => item.length > 0);
-
-      const resultRecipe = new RecipeModel(
+      const newRecipe = new Recipe(
         formValue.title,
         formValue.description,
         ingredientsArray,
-        formValue.imageUrl || 'https://via.placeholder.com/300x200?text=Nueva+Receta'
+        formValue.imageUrl
       );
-      
-      
-      if (this.isEditing && this.currentRecipeId) {
-        Object.assign(resultRecipe, { id: this.currentRecipeId });
-        sessionStorage.setItem('recipeAction', JSON.stringify({ type: 'UPDATE', recipe: resultRecipe }));
-        alert('Receta Editada y guardada temporalmente.');
-      } else {
-        sessionStorage.setItem('recipeAction', JSON.stringify({ type: 'ADD', recipe: resultRecipe }));
-        alert('Receta Añadida.');
-      }
-      
-      this.recipeForm.reset();
-      this.router.navigate(['/lista-de-recetas']);
-    } else {
-      console.error('El formulario no es válido.');
-      this.recipeForm.markAllAsTouched();
-    }
-  }
 
-  
-  private loadRecipeData(): void {
-    if (this.recipeToEdit) {
-      this.isEditing = true;
-      this.currentRecipeId = this.recipeToEdit.id;
-      this.recipeForm.patchValue({
-        title: this.recipeToEdit.title,
-        description: this.recipeToEdit.description,
-        ingredients: this.recipeToEdit.ingredients.join(', '), // Convierte a string
-        imageUrl: this.recipeToEdit.imageUrl
+      // CORRECCIÓN TEÓRICA (Diapositiva 64):
+      // 1. Llamamos al servicio (Observable)
+      this.recipeService.addRecipe(newRecipe).subscribe(() => {
+        // 2. ¡AQUÍ notificamos explícitamente tras el éxito!
+        this.recipeService.notifyUpdate();
+        
+        console.log('Receta creada y notificación enviada'); // Debug opcional
+        
+        // 3. Navegamos
+        this.router.navigate(['/lista-de-recetas']);
       });
-      console.log('Modo Edición activado para ID:', this.currentRecipeId);
-    } else {
-      this.isEditing = false;
-    }
-  }
-
-  @Input() set recipe(value: RecipeModel | undefined) {
-    this.recipeToEdit = value;
-    this.loadRecipeData();
-  }
-  
-  onDelete(): void {
-    if (this.currentRecipeId && confirm('¿Estás seguro de que quieres eliminar esta receta?')) {
-      sessionStorage.setItem('recipeAction', JSON.stringify({ type: 'DELETE', id: this.currentRecipeId }));
-      this.router.navigate(['/lista-de-recetas']);
     }
   }
 }

@@ -1,21 +1,31 @@
-<div class="card h-100">
-  <img [src]="recipe().imageUrl" class="card-img-top" [alt]="recipe().title">
+<div class="card h-100 shadow-sm">
+  <img [src]="recipe().imageUrl" class="card-img-top" [alt]="recipe().title" style="height: 200px; object-fit: cover;">
   
   <div class="card-body d-flex flex-column">
     <h5 class="card-title">{{ recipe().title }}</h5>
-    <p class="card-text">{{ recipe().description }}</p>
+    
+    <div class="mb-2">
+      <span class="text-warning fw-bold">
+        {{ averageRating() | number:'1.1-1' }} ⭐
+      </span>
+      <small class="text-muted">({{ recipe().ratings.length }} votos)</small>
+    </div>
 
-    <h6 class="card-subtitle mb-2 text-muted">Ingredientes:</h6>
-    <ul class="list-group list-group-flush mb-3 flex-grow-1">
-      @for (ingredient of recipe().ingredients; track $index) {
-        <li class="list-group-item p-1">
-          {{ ingredient }}
-        </li>
-      }
-    </ul>
+    <p class="card-text text-truncate">{{ recipe().description }}</p>
+
+    <div class="mb-3">
+      <small>Votar:</small>
+      <div class="btn-group btn-group-sm ms-2">
+        @for (star of [1,2,3,4,5]; track star) {
+          <button type="button" class="btn btn-outline-warning" (click)="vote(star)">
+            ★
+          </button>
+        }
+      </div>
+    </div>
 
     <a [routerLink]="['/formulario-receta', recipe().id]" class="btn btn-primary mt-auto">
-      Editar receta
+      Editar
     </a>
   </div>
 </div>

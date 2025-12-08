@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Recipe } from '../../../models/recipe.model';
 import { RecipeCard } from '../recipe-card/recipe-card';
 
@@ -11,4 +11,7 @@ import { RecipeCard } from '../recipe-card/recipe-card';
 })
 export class RecipeList {
   recipes = input.required<Recipe[]>();
+  
+  // Rebotamos el evento hacia arriba (Bubbling manual)
+  rateRecipe = output<{id: number, rating: number}>();
 }

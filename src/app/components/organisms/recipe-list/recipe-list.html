@@ -1,9 +1,12 @@
 <div class="row">
     @for (item of recipes(); track item.id) {
         <div class="col-md-4 mb-4">
-            <app-recipe-card [recipe]="item"></app-recipe-card>
+            <app-recipe-card 
+              [recipe]="item" 
+              (onVote)="rateRecipe.emit({id: item.id, rating: $event})">
+            </app-recipe-card>
         </div>
     } @empty {
-        <p>No hay recetas.</p>
+        <p class="text-center w-100">No hay recetas que coincidan con tu búsqueda.</p>
     }
 </div>

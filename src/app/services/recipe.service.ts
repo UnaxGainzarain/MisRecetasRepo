@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http'; // IMPORTANTE
 import { Recipe } from '../models/recipe.model';
-import { Observable, ReplaySubject, of } from 'rxjs'; // Importamos 'of'
+import { Observable, ReplaySubject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  private recipes: Recipe[] = [
-    new Recipe('Tortilla', 'Española tradicional', ['Huevos', 'Patatas'], 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Tortilla_de_Patatas.jpg/800px-Tortilla_de_Patatas.jpg'),
-    new Recipe('Pasta', 'Con tomate', ['Pasta', 'Tomate'], 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Pasta_con_pomodoro_fresco_e_basilico.jpg/800px-Pasta_con_pomodoro_fresco_e_basilico.jpg')
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/recipes'; // URL de tu Mock API
 
+  // Mantenemos el patrón reactivo de la presentación
   private updateSubject = new ReplaySubject<boolean>(1);
   public update$ = this.updateSubject.asObservable();
 
@@ -18,15 +18,21 @@ export class RecipeService {
     this.notifyUpdate();
   }
 
+  // 1. GET: Obtener del servidor
   getRecipes(): Observable<Recipe[]> {
-    return of(this.recipes);
+    return this.http.get<Recipe[]>(this.apiUrl);
   }
 
-  // CAMBIO TEÓRICO: Devuelve Observable y NO notifica solo
-  addRecipe(recipe: Recipe): Observable<void> {
-    this.recipes.push(recipe);
-    // Retornamos un Observable vacío para simular que la API respondió "OK"
-    return of(undefined); 
+  // 2. POST: Crear en el servidor
+  addRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.http.post<Recipe>(this.apiUrl, recipe);
+  }
+
+  // 3. PUT: Valorar receta (NUEVO REQUISITO)
+  rateRecipe(recipeId: number, rating: number): Observable<Recipe> {
+    const url = `${this.apiUrl}/${recipeId}/rate`;
+    // Enviamos { rating: 5 } al endpoint que creamos antes
+    return this.http.put<Recipe>(url, { rating });
   }
 
   notifyUpdate(): void {

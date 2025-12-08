@@ -56,5 +56,16 @@ router.put('/:id/rate', (req, res) => {
         res.status(404).json({ message: "Receta no encontrada" });
     }
 });
+// GET: Obtener UNA receta por ID
+router.get('/:id', (req, res) => {
+    const recipes = getRecipes();
+    const id = parseInt(req.params.id);
+    const recipe = recipes.find(r => r.id === id);
 
+    if (recipe) {
+        res.json(recipe);
+    } else {
+        res.status(404).json({ message: "Receta no encontrada" });
+    }
+});
 module.exports = router;

@@ -27,8 +27,4 @@ Para que el listado se actualice al crear una receta (sin usar `sessionStorage` 
 
 ## Cómo arrancar el proyecto
 
-Para que la aplicación funcione, necesitas levantar el servidor de datos (mock) y el cliente Angular.
-
-**1. Levantar el Backend (Mock API):**
-```bash
-node mock-api/server.js
+Para que la aplicación funcione, necesitas levantar el servidor de datos (mock) y el cliente Angular en la terminal. En una terminal con ng serve y en la otra terminal con npm run mock:api.

@@ -1,10 +1,9 @@
 <div class="row">
-    <div *ngFor="let recipe of recipes" class="col-md-4 mb-4">
-        <app-recipe-card 
-            [id]="recipe.id"               [title]="recipe.title"
-            [description]="recipe.description"
-            [ingredients]="recipe.ingredients"
-            [imageUrl]="recipe.imageUrl">
-        </app-recipe-card>
-    </div>
+    @for (item of recipes(); track item.id) {
+        <div class="col-md-4 mb-4">
+            <app-recipe-card [recipe]="item"></app-recipe-card>
+        </div>
+    } @empty {
+        <p>No hay recetas.</p>
+    }
 </div>

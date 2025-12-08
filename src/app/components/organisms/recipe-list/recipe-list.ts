@@ -1,16 +1,14 @@
-import { Component, Input } from '@angular/core'; 
-import { CommonModule } from '@angular/common'; 
-import { Recipe } from '../../../models/recipe.model'; 
-import { RecipeCard } from '../recipe-card/recipe-card'; 
+import { Component, input } from '@angular/core';
+import { Recipe } from '../../../models/recipe.model';
+import { RecipeCard } from '../recipe-card/recipe-card';
 
 @Component({
   selector: 'app-recipe-list',
-  standalone: true, 
-  imports: [CommonModule, RecipeCard], 
+  standalone: true,
+  imports: [RecipeCard],
   templateUrl: './recipe-list.html',
   styleUrl: './recipe-list.scss'
 })
-export class RecipeList { 
-  
-  @Input() recipes: Recipe[] = []; 
+export class RecipeList {
+  recipes = input.required<Recipe[]>();
 }

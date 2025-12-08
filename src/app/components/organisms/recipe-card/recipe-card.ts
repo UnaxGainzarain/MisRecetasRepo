@@ -1,19 +1,15 @@
-
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input } from '@angular/core'; // Usamos 'input' signal
 import { RouterLink } from '@angular/router';
+import { Recipe } from '../../../models/recipe.model';
 
 @Component({
   selector: 'app-recipe-card',
-  standalone: true, 
-  imports: [CommonModule, RouterLink],
+  standalone: true,
+  imports: [RouterLink], // CommonModule ya no es vital si usas la nueva sintaxis @
   templateUrl: './recipe-card.html',
-  styleUrl: './recipe-card.scss'
+  styleUrl: './recipe-card.scss' // Asegúrate de que este archivo exista, o usa styles: []
 })
 export class RecipeCard {
-  @Input() id!: number; // <-- ¡NUEVO!
-  @Input() title: string = 'Título de la Receta';
-  @Input() description: string = 'Una deliciosa receta que te encantará.';
-  @Input() ingredients: string[] = []; 
-  @Input() imageUrl: string = 'https://via.placeholder.com/300x200';
+  // REGLA DE ORO: Recibir el modelo completo como Signal
+  recipe = input.required<Recipe>(); 
 }
